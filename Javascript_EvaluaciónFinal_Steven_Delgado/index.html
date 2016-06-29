@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+<body>
+	<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+	<!-- Add your site or application content here -->
+	<div class="container-fluid">
+		<h1 class="text-center text-uppercase text-primary small"> Notas de estudiantes </h1>
+		<hr>
+		<div id="mostrar-datos-estudiantes" class="hide">
+			<table class="table table-bordered table-striped table-hover">
+				<caption> Estudiantes </caption>
+				<thead>
+					<tr >
+						<th class="text-success small">N°</th>
+						<th class="text-success small">Código</th>
+						<th class="text-success small">Nombre</th>
+						<th class="text-success small">Nota nro 1</th>
+						<th class="text-success small">Nota nro 2</th>
+						<th class="text-success small">Nota nro 3</th>
+					</tr>
+				</thead>
+			<tbody id="insertar-datos-estudiantes"></tbody>
+		</table>
+	</div>
+
+	<div id="mostrar-datos-promedio-estudiantes" class="hide">
+		<table class="table table-bordered table-striped table-hover">
+			<caption>Promedios de estudiantes</caption>
+			<thead>
+				<tr>
+					<th class="text-warning small">Código</th>
+					<th class="text-warning small">Promedio</th>
+				</tr>
+			</thead>
+			<tbody id="insertar-datos-promedio-estudiantes"> </tbody>
+		</table>
+	</div>
+
+	<div id="mostrar-nota-mayor-estudiante" class="hide">
+		<table class="table table-bordered table-striped table-hover">
+			<caption> Promedio mayor </caption>
+			<thead>
+				<tr>
+					<th class="text-muted small">Código</th>
+					<th class="text-muted small">Nombre</th>
+					<th class="text-muted small">Nota</th>
+				</tr>
+			</thead>
+			<tbody id="insertar-nota-mayor-estudiante"> </tbody>
+		</table>
+	</div>
+
+	<div id="mostrar-nota-menor-estudiante" class="hide">
+		<table class="table table-bordered table-striped table-hover">
+			<caption> Promedio menor </caption>
+			<thead>
+				<tr>
+					<th class="text-info small">Código</th>
+					<th class="text-info small">Nombre</th>
+					<th class="text-info small">Nota</th>
+				</tr>
+			</thead>
+			<tbody id="insertar-nota-menor-estudiante"> </tbody>
+		</table>
+	</div>
+
+	<button id="mostrar-datos-json" class="btn  btn-success btn-xs small"> Mostrar datos </button>
+	<button id="mostrar-nota-promedio" class="btn  btn-warning btn-xs small" disabled="true"> Calcular promedios </button>
+	<button id="mostrar-nota-mayor" class="btn  btn-default btn-xs small" disabled="true"> Mostrar nota mayor </button>
+	<button id="mostrar-nota-menor" class="btn  btn-primary btn-xs small" disabled="true"> Mostrar nota menor </button>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<script type="text/javascript"  src="default.estudiantes.js"></script>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+	(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+	e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+	e.src='http://www.google-analytics.com/analytics.js';
+	r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+	ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="vendor/css/sweetalert.css">
+	<link rel="stylesheet" href="vendor/css/uikit.min.css">
+	<!-- <link rel="stylesheet" href="vendor/css/dataTables.uikit.min.css"> -->
+	<link rel="stylesheet" href="vendor/css/index.default.css">
+	<style>
+	</style>
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+</head>
+<body>
+<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+	<div class="container-fluid">
+		<h1 class="text-center text-uppercase text-primary small"> Registro de notas </h1>
+		<hr>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-6">
+					<form id="form-registro-estudiante">
+						<table class="table table-bordered table-striped table-hover uk-table uk-table-hover uk-table-striped">
+							<caption> Registro de estudiante </caption>
+							<thead>
+								<tr>
+									<th>
+										<small> Código: </small>
+									</th>
+									<th>
+										<div class="row">
+											<div class="form-group-sm col-lg-10">
+												<input name="codigo" type="text" class="form-control" id="codigo-estudiante" placeholder="ingrese un código" />
+											</div>
+										</div>
+										<div id="mensage-1" class="text-danger hide" role="alert">
+											<small>Este campo no puede estar en blanco</small>
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th>
+										<small> Nombre: </small>
+									</th>
+									<th>
+										<div class="row">
+											<div class="form-group-sm col-lg-10">
+												<input name="nombre" type="text" class="form-control" id="nombre-estuadiante" placeholder="ingrese un nombre" />
+											</div>
+										</div>
+										<div id="mensage-2" class="text-danger hide" role="alert">
+											<small>Este campo no puede estar en blanco</small>
+										</div>
+									</th>
+								</tr>
+								<tr>
+									<th>
+										<small> Nota n° 1: </small>
+									</th>
+									<th>
+										<div id="div-contar" class="row">
+											<div class="input input-0 form-group-sm col-lg-10" data-prototype="<input name='nota-__name__' type='number' class='form-control' id='nota-estudiante-__name__' placeholder='ingrese un nota __name__' />">
+
+											<!-- <input name="nota" type="number" class="form-control" id="nota-estudiante" placeholder="ingrese un nota" /> -->
+										</div>
+
+										<div class="col-lg-2">
+											<button id="btn-agregar-nuevo-input" class="btn  btn-default btn-xs small">
+												<span class="glyphicon glyphicon-plus-sign text-success" aria-hidden="true"></span>
+											</button>
+										</div>
+									</div>
+									<div id="mensage-3" class="text-danger hide" role="alert">
+										<small>Este campo no puede estar en blanco</small>
+									</div>
+								</th>
+							</tr>
+						</thead>
+					</table>
+				</form><!-- FIN REGISTRO DE ESTUADIANTE -->
+			</div>
+			<div class="col-lg-6">
+				<table id="data-table-lista-estudiantes" class="table table-bordered table-striped table-hover uk-table uk-table-hover uk-table-striped">
+					<caption> Acciones de botones </caption>
+					<thead>
+						<tr>
+							<th>
+								<small> Registrar estudiante </small>
+							</th>
+							<th>
+								<button id="btn-registrar-estudiante" class="btn  btn-success btn-xs small">
+									<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Guardar
+								</button>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<small> Calcular promedios </small>
+							</th>
+							<th>
+								<button id="mostrar-nota-promedio" class="btn  btn-warning btn-xs small">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver
+								</button>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<small> Mostrar nota mayor </small>
+							</th>
+							<th>
+								<button id="mostrar-nota-mayor" class="btn  btn-default btn-xs small">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver
+								</button>
+							</th>
+						</tr>
+						<tr>
+							<th>
+								<small> Mostrar nota menor </small>
+							</th>
+							<th>
+								<button id="mostrar-nota-menor" class="btn  btn-primary btn-xs small">
+									<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Ver
+								</button>
+							</th>
+						</tr>
+					</thead>
+				</table> <!-- FIN LISTADO DE ESTUDIANTES -->
+			</div>
+			<hr>
+			<div class="col-lg-12">
+				<table id="data-table-lista-estudiantes" class="table table-bordered table-striped table-hover uk-table uk-table-hover uk-table-striped">
+					<caption> Listado de Estudiantes </caption>
+					<thead>
+						<tr>
+							<th>Codigo</th>
+							<th>Nombre estudiante</th>
+							<th>Nota n° 1</th>
+							<th>Nota n° 2</th>
+							<th>Nota n° 3</th>
+						</tr>
+					</thead>
+					<tbody id="insertar-datos-estudiantes"> </tbody>
+				</table> <!-- FIN LISTADO DE ESTUDIANTES -->
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="vendor/js/jquery-2.2.4.js"><\/script>')</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<!-- <script src="vendor/js/jquery.dataTables.min.js"></script> -->
+<!-- <script src="vendor/js/dataTables.uikit.min.js"></script> -->
+<script src="vendor/js/sweetalert.min.js"></script>
+<!-- <script src="index.default.load.js"> </script> -->
+<script src="js/index.default.load.js"> </script>
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+	(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+	e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+	e.src='https://www.google-analytics.com/analytics.js';
+	r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+	ga('create','UA-XXXXX-X');ga('send','pageview');
+</script>
+</body>
+</html>
