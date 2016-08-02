@@ -1,0 +1,42 @@
+.alert-danger {
+	color: #a94442;
+	border-color: #ebccd1;
+}
+
+.alert {
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+body {
+	height: 100vh;
+	padding: 0 2em;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	color: #444;
+}
+
+.margin-bttp {
+	margin: 10px auto;
+	position: relative;
+}
+
+label.error {
+	color: #a94442;
+	font-size: 12px;
+	font-stretch: extra-condensed;
+	font-family: monospace;
+}
+
+.fade-input {
+	opacity: 0;
+	-moz-transition: opacity 2s; /* Firefox 4 */
+	-webkit-transition: opacity 2s; /* Safari and Chrome */
+	-o-transition: opacity 2s;
+	transition: opacity 2s;
+}
+
+/*.error:hover {
+	text-shadow: 0 0 200px #ffffff, 0 0 80px #008000, 0 0 6px #0000ff;
+}*/
