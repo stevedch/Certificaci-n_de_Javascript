@@ -18,7 +18,7 @@
 
 	var CONFIG_INIT = CONFIG_INIT || {};
 
-	CONFIG_INIT = function(settings) {
+	CONFIG_INIT = function(settings) { // configuración global de aplicación
 
 		var __objGlobal__ = {};
 
@@ -130,7 +130,7 @@
 
 		$.extend(true, this.construct, __objGlobal__);
 
-		this.construct.init();
+		this.construct.init(); // accedo ha init para cargar sus metodos principales
 
 	};
 
@@ -140,12 +140,13 @@
 
 			var initialCofing = CONFIG_INIT.prototype.construct;
 
+			initialCofing.showDataStudents();
 			initialCofing.loadInput();
 			initialCofing.eventsClik();
 
 			$('#form-registro-estudiante').validate(initialCofing.parametersForm);
 		},
-		loadInput: function(params) {
+		loadInput: function(params) { // carga automaticante el primer input de notas y genera uno nuevo
 
 			var initInput = $('#crear-input'),
 				rangeInput = $('#crear-input > input'),
@@ -176,14 +177,18 @@
 
 			$('#crear-input').eachKey();
 		},
-		eventsClik: function() {
+		eventsClik: function() { // eventos principales de la aplicación
 
 			var initialCofing = CONFIG_INIT.prototype.construct;
 
-			document.getElementById('btn-agregar-nuevo-input').addEventListener('click', initialCofing.loadInput);
-			document.getElementById('btn-registrar-estudiante').addEventListener('click', initialCofing.newRegister);
+			document.getElementById('btn-agregar-nuevo-input').addEventListener('click', initialCofing.loadInput); // evento click para generar inputs dinámicos
+			document.getElementById('btn-registrar-estudiante').addEventListener('click', initialCofing.newRegister); // evento click que registra estudiantes
+			document.getElementById('btn-mostrar-nota-promedio').addEventListener('click', initialCofing.showNotesAverage); // evento click para mostrar promedios de estudiantes
+			document.getElementById('btn-mostrar-nota-mayor').addEventListener('click', initialCofing.showNoteMajor); // evento click para mostrar nota mayor
+			document.getElementById('btn-mostrar-nota-menor').addEventListener('click', initialCofing.showNoteMinor); // evento click para mostrar nota menor
+
 		},
-		newRegister: function(e) {
+		newRegister: function(e) { // crea un nuevo registro
 
 			e.preventDefault();
 
@@ -228,18 +233,250 @@
 					});
 
 					localStorage.setItem('session.dataStudents', JSON.stringify(initialCofing.listStudentsLocalStorage));
+
+					swal({
+						type: 'success',
+						title: '<small>Registro</small>',
+						text: 'Se guardo un nuevo registro exitosamente',
+						confirmButtonColor: '#afe094',
+						confirmButtonText: 'Aceptar',
+						closeOnConfirm: true,
+						html: true
+					}, function() {
+						$('#form-registro-estudiante')[0].reset();
+						initialCofing.showDataStudents();
+					});
 				} else {
 
-					sessionDataStudents.register.push({
-						'codigo': objPreDataRegister.codigo,
-						'nombre': objPreDataRegister.nombre,
-						'notas': objPreDataRegister.notas
-					});
+					if (initialCofing.checkDuplicatingData(sessionDataStudents, objPreDataRegister)) {
 
-					localStorage.setItem('session.dataStudents', JSON.stringify(sessionDataStudents));
+						sessionDataStudents.register.push({
+							'codigo': objPreDataRegister.codigo,
+							'nombre': objPreDataRegister.nombre,
+							'notas': objPreDataRegister.notas
+						});
+
+						localStorage.setItem('session.dataStudents', JSON.stringify(sessionDataStudents));
+
+						swal({
+							type: 'success',
+							title: '<small>Registro</small>',
+							text: 'Se guardo un nuevo registro exitosamente',
+							confirmButtonColor: '#afe094',
+							confirmButtonText: 'Aceptar',
+							closeOnConfirm: true,
+							html: true
+						}, function() {
+							$('#form-registro-estudiante')[0].reset();
+							initialCofing.showDataStudents();
+						});
+					} else {
+
+						swal({
+							type: 'error',
+							title: '<small>Codigo</small>',
+							text: 'El codigo ya se encuentra registrado',
+							confirmButtonColor: '#F27474',
+							confirmButtonText: 'Aceptar',
+							closeOnConfirm: true,
+							html: true
+						}, function() {});
+					}
 				}
 			}
 
+		},
+		showNotesAverage: function(e) {
+
+			e.preventDefault();
+
+			var initialCofing = CONFIG_INIT.prototype.construct;
+
+			var listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
+
+			var insertarHtmlPromediosEstudiantes = `<table class="table table-bordered table-responsive table-striped table-hover uk-table uk-table-hover uk-table-striped">
+				<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
+
+			if (listDataStudents !== null) {
+
+				for (var i = 0; i < Object.keys(listDataStudents.register).length; i++) {
+
+					insertarHtmlPromediosEstudiantes += `<tr> <td>${ listDataStudents.register[i].codigo }</td>
+					<td>${ listDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(listDataStudents.register[i].notas).toPrecision(3) }</td>
+					</tr>`;
+				}
+			} else {
+
+				insertarHtmlPromediosEstudiantes += `<tr>
+				<td colspan="3" class="text-center text-muted small"> No se encontrarón resultados </td></tr>`;
+			}
+
+			insertarHtmlPromediosEstudiantes += `</tbody></table>`;
+
+			swal({
+				title: '<small>Listado de promedios</small> <hr>',
+				text: insertarHtmlPromediosEstudiantes,
+				confirmButtonColor: '#333',
+				confirmButtonText: 'Aceptar',
+				closeOnConfirm: true,
+				html: true
+			}, function() {});
+		},
+		showNoteMajor: function(e) {
+
+			e.preventDefault();
+
+			var initialCofing = CONFIG_INIT.prototype.construct;
+			initialCofing.simplifyingNoteShowMinorandMajor('max');
+		},
+		showNoteMinor: function(e) {
+
+			e.preventDefault();
+
+			var initialCofing = CONFIG_INIT.prototype.construct;
+			initialCofing.simplifyingNoteShowMinorandMajor('min');
+		},
+		simplifyingNoteShowMinorandMajor: function(params) {
+
+			var sessionDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
+			var initialCofing = CONFIG_INIT.prototype.construct;
+
+			var insertarHtmlPromediosEstudiantesMin = `<table class="table table-bordered  table-responsive table-striped table-hover uk-table uk-table-hover uk-table-striped">
+				<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
+
+			var newObject = {};
+
+			if (sessionDataStudents !== null) {
+
+				for (var key in sessionDataStudents) {
+
+					for (var subKey in sessionDataStudents[key]) {
+
+						newObject[subKey] = initialCofing.calculatingNotesAverage(sessionDataStudents[key][subKey]['notas']).toPrecision(3);
+					}
+				}
+
+				var arr = Object.keys(newObject).map(function(key) {
+					return newObject[key];
+				});
+				var resultado = '';
+
+				if (params == 'max') {
+
+					resultado = Math.max.apply(null, arr);
+				} else {
+
+					resultado = Math.min.apply(null, arr);
+				}
+
+				for (var i = 0; i < Object.keys(sessionDataStudents.register).length; i++) {
+
+					if (initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) == resultado) {
+
+						insertarHtmlPromediosEstudiantesMin += `<tr> <td>${ sessionDataStudents.register[i].codigo }</td>
+							<td>${ sessionDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) }</td>
+								</tr>`;
+					}
+				}
+			} else {
+
+				insertarHtmlPromediosEstudiantesMin += `<tr>
+				<td colspan="3" class="text-center text-muted small"> No se encontrarón resultados </td></tr>`;
+			}
+
+			insertarHtmlPromediosEstudiantesMin += `</tbody></table>`;
+
+			swal({
+				title: `<small>Nota ${ (params === 'max') ? 'mayor' : 'menor' }</small> <hr>`,
+				text: insertarHtmlPromediosEstudiantesMin,
+				confirmButtonColor: '#333',
+				confirmButtonText: 'Aceptar',
+				closeOnConfirm: true,
+				html: true
+			}, function() {});
+		},
+		calculatingNotesAverage: function(obj) {
+
+			var sum = 0;
+
+			for (var el in obj) {
+
+				if (obj.hasOwnProperty(el)) {
+
+					sum += parseFloat(obj[el] / Object.keys(obj).length);
+				}
+			}
+
+			return sum;
+		},
+		checkDuplicatingData: function(params1, params2) { // comprueba y evita que el codigo no se duplique
+
+			var i = 0,
+				isValid = true;
+
+			while (params1['register'][i]) {
+
+				if (params2['codigo'] === params1['register'][i]['codigo']) {
+
+					isValid = false;
+				}
+
+				i++;
+			}
+
+			return isValid;
+		},
+		showDataStudents: function(params) { // genera listado de estudiantes
+
+			var listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents')),
+
+				insertarHtmlEstudiante = '',
+				insertarTh = '';
+
+			insertarTh += `<th class="text-muted small">Codigo</th>
+			<th class="text-muted small"> Nombre estudiante </th>
+			<th class="text-muted small"> Nota número uno </th>
+			<th class="text-muted small"> Nota número dos </th>
+			<th class="text-muted small"> Nota número tres </th>
+			<th class="text-muted small"> Nota número cuatro </th>
+			<th class="text-muted small"> Nota número cinco </th>
+			<th class="text-muted small"> Nota número seis </th>
+			<th class="text-muted small"> Opciones </th>
+			`;
+
+			if (listDataStudents !== null) {
+
+				$.each(listDataStudents.register, function(key, field) {
+
+					insertarHtmlEstudiante += `<tr>
+					<td> ${ field.codigo } </td>
+					<td> ${ field.nombre } </td>
+					`;
+
+					for (var i = 0; i < Object.keys(field.notas).length; i++) {
+
+						var notas = field.notas[i];
+
+						insertarHtmlEstudiante += `  <td> ${ notas } </td>`;
+					}
+
+					insertarHtmlEstudiante += `
+					<td>
+						<button class="editar-estudiante btn btn-warning btn-xs" data-editar-estudiante="${ field.codigo }"> Editar </button>
+						<button class="eliminar-estudiate btn btn-danger  btn-xs" data-eliminar-estudiante="${ field.codigo }"> Eliminar </button>
+					</td>`;
+
+				});
+
+				insertarHtmlEstudiante += `</tr>`;
+			} else {
+
+				insertarHtmlEstudiante += `<tr>
+				<td colspan="9" class="text-center text-muted small"> No se encontrarón resultados </td></tr>`;
+			}
+
+			document.getElementById('insertar-th').innerHTML = insertarTh;
+			document.getElementById('insertar-datos-estudiantes').innerHTML = insertarHtmlEstudiante;
 		}
 	};
 
