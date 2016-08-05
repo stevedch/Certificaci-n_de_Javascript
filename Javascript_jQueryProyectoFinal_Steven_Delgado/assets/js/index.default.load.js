@@ -23,8 +23,7 @@
 		var __objGlobal__ = {};
 
 		__objGlobal__.listStudentsLocalStorage = {
-			'register': [],
-			'state': true
+			'register': []
 		};
 
 		__objGlobal__.parametersForm = {
@@ -42,37 +41,37 @@
 				},
 				nota_0: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
 				nota_1: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
 				nota_2: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
 				nota_3: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
 				nota_4: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
 				nota_5: {
 					required: true,
-					minlength: 2,
+					minlength: 1,
 					maxlength: 5,
 					number: true
 				},
@@ -187,6 +186,9 @@
 			document.getElementById('btn-mostrar-nota-mayor').addEventListener('click', initialCofing.showNoteMajor); // evento click para mostrar nota mayor
 			document.getElementById('btn-mostrar-nota-menor').addEventListener('click', initialCofing.showNoteMinor); // evento click para mostrar nota menor
 
+			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
+			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
+
 		},
 		newRegister: function(e) { // crea un nuevo registro
 
@@ -244,7 +246,7 @@
 						html: true
 					}, function() {
 						$('#form-registro-estudiante')[0].reset();
-						initialCofing.showDataStudents();
+						location.reload();
 					});
 				} else {
 
@@ -268,7 +270,7 @@
 							html: true
 						}, function() {
 							$('#form-registro-estudiante')[0].reset();
-							initialCofing.showDataStudents();
+							location.reload();
 						});
 					} else {
 
@@ -286,16 +288,85 @@
 			}
 
 		},
-		showNotesAverage: function(e) {
+		editNoteStudent: function(e) {
+
+			e.preventDefault();
+
+			var codigo = $(this).data('editarEstudiante'),
+				listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents')),
+				cells = new Array(),
+				arrNotas = new Array();
+
+			for (var i = 0; i < Object.keys(listDataStudents.register).length; i++) {
+
+				if (listDataStudents.register[i].codigo == codigo) {
+
+					$('#codigo-estudiante').val(listDataStudents.register[i].codigo);
+					$('#nombre-estuadiante').val(listDataStudents.register[i].nombre);
+
+					for (var j = 0; j < Object.keys(listDataStudents.register[i].notas).length; j++) {
+
+						cells[j] = $('#crear-input').attr('data-prototype').replace(/__name__/g, j);
+						$('#crear-input').html(cells);
+						arrNotas[j] = listDataStudents.register[i].notas[j];
+					}
+				}
+			}
+
+			for (var h = 0; h < Object.keys(arrNotas).length; h++) {
+
+				$('input[name=nota_' + h + ']').val(arrNotas[h]);
+			}
+
+			$('#crear-input').eachKey();
+		},
+		deleteNoteStudent: function(e) {
 
 			e.preventDefault();
 
 			var initialCofing = CONFIG_INIT.prototype.construct;
 
+			var codigo = $(this).data('eliminarEstudiante'),
+				position = $(this).data('position'),
+				arrRegister = {},
+				listArrRegister = {},
+				listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
+
+			var j = 0;
+
+			if (typeof listDataStudents.register !== 'undefined') {
+
+
+				for (var i = 0; i < Object.keys(listDataStudents.register).length; i++) {
+
+					if (i != position) {
+
+						arrRegister[i] = listDataStudents.register[i];
+					}
+				}
+
+				if (Object.keys(arrRegister).length > 0) {
+
+					listArrRegister['register'] = arrRegister;
+					localStorage.setItem('session.dataStudents', JSON.stringify(listArrRegister));
+				} else {
+
+					localStorage.removeItem('session.dataStudents');
+				}
+
+			}
+
+			location.reload();
+		},
+		showNotesAverage: function(e) {
+
+			e.preventDefault();
+
+			var initialCofing = CONFIG_INIT.prototype.construct;
 			var listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
 
 			var insertarHtmlPromediosEstudiantes = `<table class="table table-bordered table-responsive table-striped table-hover uk-table uk-table-hover uk-table-striped">
-				<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
+			<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
 
 			if (listDataStudents !== null) {
 
@@ -342,7 +413,7 @@
 			var initialCofing = CONFIG_INIT.prototype.construct;
 
 			var insertarHtmlPromediosEstudiantesMin = `<table class="table table-bordered  table-responsive table-striped table-hover uk-table uk-table-hover uk-table-striped">
-				<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
+			<thead><tr> <th class="text-muted small">Codigo</th> <th class="text-muted small"> Nombre estudiante </th> <th class="text-muted small">Promedio</th> </tr> <thead/> <tbody>`;
 
 			var newObject = {};
 
@@ -374,8 +445,8 @@
 					if (initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) == resultado) {
 
 						insertarHtmlPromediosEstudiantesMin += `<tr> <td>${ sessionDataStudents.register[i].codigo }</td>
-							<td>${ sessionDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) }</td>
-								</tr>`;
+						<td>${ sessionDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) }</td>
+						</tr>`;
 					}
 				}
 			} else {
@@ -428,8 +499,8 @@
 		},
 		showDataStudents: function(params) { // genera listado de estudiantes
 
+			var initialCofing = CONFIG_INIT.prototype.construct;
 			var listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents')),
-
 				insertarHtmlEstudiante = '',
 				insertarTh = '';
 
@@ -448,23 +519,30 @@
 
 				$.each(listDataStudents.register, function(key, field) {
 
-					insertarHtmlEstudiante += `<tr>
+					if (field !== null) {
+
+						insertarHtmlEstudiante += `<tr>
 					<td> ${ field.codigo } </td>
 					<td> ${ field.nombre } </td>
 					`;
 
-					for (var i = 0; i < Object.keys(field.notas).length; i++) {
+						if (typeof field.notas !== 'undefined') {
 
-						var notas = field.notas[i];
+							for (var i = 0; i < Object.keys(field.notas).length; i++) {
 
-						insertarHtmlEstudiante += `  <td> ${ notas } </td>`;
-					}
+								var notas = field.notas[i];
 
-					insertarHtmlEstudiante += `
+								insertarHtmlEstudiante += `  <td> ${ notas } </td>`;
+							}
+						}
+
+						insertarHtmlEstudiante += `
 					<td>
-						<button class="editar-estudiante btn btn-warning btn-xs" data-editar-estudiante="${ field.codigo }"> Editar </button>
-						<button class="eliminar-estudiate btn btn-danger  btn-xs" data-eliminar-estudiante="${ field.codigo }"> Eliminar </button>
+					<button class="btn-editar-estudiante btn btn-warning btn-xs" data-editar-estudiante="${ field.codigo }"> Editar </button>
+					<button class="btn-eliminar-estudiate btn btn-danger  btn-xs" data-eliminar-estudiante="${ field.codigo }" data-position="${ key }"> Eliminar </button>
 					</td>`;
+
+					}
 
 				});
 
@@ -477,6 +555,9 @@
 
 			document.getElementById('insertar-th').innerHTML = insertarTh;
 			document.getElementById('insertar-datos-estudiantes').innerHTML = insertarHtmlEstudiante;
+
+			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
+			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
 		}
 	};
 
