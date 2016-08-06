@@ -23,21 +23,10 @@ $(function() {
 		});
 	};
 
+	$.fn.parentHide = function(element) {
 
-	$.fn.parentHide = function() {
-
-		this[0].parentNode.parentNode.style.display = 'none';
-
-		var parentTr = $(this[0].parentNode.parentNode);
-
-		if (!parentTr.is(':visible')) {
-
-			var showTr = $(parentTr[0].parentNode).find('tr')[0];
-
-			$(showTr).css({
-				'display': 'table-row'
-			});
-		}
+		this[0].style.display = 'table-row';
+		document.getElementById(element).style.display = 'none';
 	};
 
 	$.validator.addMethod( //no se permiten caracteres extraños

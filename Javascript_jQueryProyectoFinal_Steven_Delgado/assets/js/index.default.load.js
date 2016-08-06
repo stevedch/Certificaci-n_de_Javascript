@@ -189,6 +189,12 @@
 			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
 			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
 
+			document.getElementById('btn-actualizar-estudiante').addEventListener('click', initialCofing.updateDataStudent);
+
+			$('#codigo-estudiante').on('keydown', function(e) {
+
+				$('#ocultar-registrar-estudiante').parentHide('ocultar-actualizar-estudiante');
+			});
 		},
 		newRegister: function(e) { // crea un nuevo registro
 
@@ -319,7 +325,21 @@
 			}
 
 			$('#crear-input').eachKey();
-			$('#btn-registrar-estudiante').parentHide();
+			$('#ocultar-actualizar-estudiante').parentHide('ocultar-registrar-estudiante');
+		},
+		updateDataStudent: function(e) {
+
+			e.preventDefault();
+
+			var initialCofing = CONFIG_INIT.prototype.construct,
+				formRegister = $('#form-registro-estudiante');
+
+			formRegister.validate(CONFIG_INIT.prototype.construct.parametersForm);
+
+			if (formRegister.valid()) {
+
+				console.log(this)
+			}
 		},
 		deleteNoteStudent: function(e) {
 
@@ -337,7 +357,6 @@
 
 			if (typeof listDataStudents.register !== 'undefined') {
 
-
 				for (var i = 0; i < Object.keys(listDataStudents.register).length; i++) {
 
 					if (i != position) {
@@ -353,9 +372,7 @@
 
 					localStorage.removeItem('session.dataStudents');
 				}
-
 			}
-
 			location.reload();
 		},
 		showNotesAverage: function(e) {
@@ -541,9 +558,7 @@
 					<button class="btn-editar-estudiante btn btn-warning btn-xs" data-editar-estudiante="${ field.codigo }"> Editar </button>
 					<button class="btn-eliminar-estudiate btn btn-danger  btn-xs" data-eliminar-estudiante="${ field.codigo }" data-position="${ key }"> Eliminar </button>
 					</td>`;
-
 					}
-
 				});
 
 				insertarHtmlEstudiante += `</tr>`;
@@ -555,9 +570,6 @@
 
 			document.getElementById('insertar-th').innerHTML = insertarTh;
 			document.getElementById('insertar-datos-estudiantes').innerHTML = insertarHtmlEstudiante;
-
-			// $('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
-			// $('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
 		}
 	};
 
