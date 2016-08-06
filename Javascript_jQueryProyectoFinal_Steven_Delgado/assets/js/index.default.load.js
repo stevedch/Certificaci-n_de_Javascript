@@ -329,7 +329,7 @@
 			var codigo = $(this).data('eliminarEstudiante'),
 				position = $(this).data('position'),
 				arrRegister = {},
-				listArrRegister = {},
+				listArrRegister = new Array(),
 				listDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
 
 			var j = 0;
@@ -341,14 +341,13 @@
 
 					if (i != position) {
 
-						arrRegister[i] = listDataStudents.register[i];
+						initialCofing.listStudentsLocalStorage.register.push(listDataStudents.register[i]);
 					}
 				}
 
-				if (Object.keys(arrRegister).length > 0) {
+				if (Object.keys(initialCofing.listStudentsLocalStorage.register).length > 0) {
 
-					listArrRegister['register'] = arrRegister;
-					localStorage.setItem('session.dataStudents', JSON.stringify(listArrRegister));
+					localStorage.setItem('session.dataStudents', JSON.stringify(initialCofing.listStudentsLocalStorage));
 				} else {
 
 					localStorage.removeItem('session.dataStudents');
@@ -556,8 +555,8 @@
 			document.getElementById('insertar-th').innerHTML = insertarTh;
 			document.getElementById('insertar-datos-estudiantes').innerHTML = insertarHtmlEstudiante;
 
-			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
-			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
+			// $('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
+			// $('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
 		}
 	};
 
