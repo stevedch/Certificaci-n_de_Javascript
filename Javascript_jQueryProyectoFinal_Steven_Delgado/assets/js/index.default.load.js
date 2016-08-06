@@ -292,7 +292,6 @@
 					}
 				}
 			}
-
 		},
 		editNoteStudent: function(e) {
 
@@ -332,13 +331,58 @@
 			e.preventDefault();
 
 			var initialCofing = CONFIG_INIT.prototype.construct,
+				objPreDataRegister = {},
+				objPreDataNotes = {},
 				formRegister = $('#form-registro-estudiante');
 
 			formRegister.validate(CONFIG_INIT.prototype.construct.parametersForm);
 
 			if (formRegister.valid()) {
 
-				console.log(this)
+				$.each(formRegister.serializeArray(), function(key, data) {
+
+					if (!data.name.match(/nota_/g)) {
+
+						objPreDataRegister[data.name] = data.value;
+
+					} else {
+
+						objPreDataNotes[data.name.replace(/nota_/g, '')] = data.value;
+					}
+				});
+
+				objPreDataRegister['notas'] = objPreDataNotes;
+
+				for (var i = 0; i < 6; i++) {
+
+					if (!(i in objPreDataRegister.notas)) {
+						objPreDataRegister.notas[i] = '0';
+					}
+				}
+
+				var sessionDataStudents = JSON.parse(localStorage.getItem('session.dataStudents'));
+
+				var j = 0;
+
+				while (sessionDataStudents.register[j]) {
+
+					if (objPreDataRegister.codigo === sessionDataStudents.register[j].codigo) {
+
+						// sessionDataStudents.register[j].codigo = objPreDataRegister.codigo;
+						sessionDataStudents.register[j].nombre = objPreDataRegister.nombre;
+
+						for (var k = Object.keys(sessionDataStudents.register[j].notas).length - 1; k >= 0; k--) {
+
+							sessionDataStudents.register[j].notas[k] = objPreDataRegister.notas[k];
+						}
+					}
+
+					j++;
+				}
+
+				localStorage.setItem('session.dataStudents', JSON.stringify(sessionDataStudents));
+
+				location.reload();
 			}
 		},
 		deleteNoteStudent: function(e) {
