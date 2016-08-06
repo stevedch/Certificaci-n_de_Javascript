@@ -23,6 +23,23 @@ $(function() {
 		});
 	};
 
+
+	$.fn.parentHide = function() {
+
+		this[0].parentNode.parentNode.style.display = 'none';
+
+		var parentTr = $(this[0].parentNode.parentNode);
+
+		if (!parentTr.is(':visible')) {
+
+			var showTr = $(parentTr[0].parentNode).find('tr')[0];
+
+			$(showTr).css({
+				'display': 'table-row'
+			});
+		}
+	};
+
 	$.validator.addMethod( //no se permiten caracteres extraños
 		'regex',
 		function(value, element, regexp) {

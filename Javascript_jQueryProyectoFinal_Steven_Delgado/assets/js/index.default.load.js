@@ -319,6 +319,7 @@
 			}
 
 			$('#crear-input').eachKey();
+			$('#btn-registrar-estudiante').parentHide();
 		},
 		deleteNoteStudent: function(e) {
 
