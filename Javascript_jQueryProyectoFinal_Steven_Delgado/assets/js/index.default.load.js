@@ -6,8 +6,10 @@
  * - Calcular la nota promedio y mostrar en pantalla.
  * - Mostrar en pantalla el estudiante con la mayor nota.
  * - Mostrar en pantalla el estudiante con la menor nota de todas.
+ * - Actualizar datos del estudiante
+ * - Eliminar datos del estudiante
  * ]
- * Fecha de creación: 03/07/16
+ * Fecha de creación: 07/08/16
  * Fecha de actualización:
  * Participantes: [ ]
  */
@@ -26,7 +28,7 @@
 			'register': []
 		};
 
-		__objGlobal__.parametersForm = {
+		__objGlobal__.parametersForm = { // Parametro global del formulario
 			rules: {
 				nombre: {
 					regex: '[a-zA-Z]',
@@ -135,7 +137,7 @@
 
 	CONFIG_INIT.prototype.construct = {
 
-		init: function(params) {
+		init: function(params) { // carga inicial de los eventos principales de la aplicación
 
 			var initialCofing = CONFIG_INIT.prototype.construct;
 
@@ -162,6 +164,9 @@
 			if (quantityInput < 6) {
 
 				initInput.append(cells);
+
+				var slideInput = $(initInput)[0].lastChild;
+				$(slideInput).hide().slideDown(400);
 			} else {
 
 				swal({
@@ -186,10 +191,10 @@
 			document.getElementById('btn-mostrar-nota-mayor').addEventListener('click', initialCofing.showNoteMajor); // evento click para mostrar nota mayor
 			document.getElementById('btn-mostrar-nota-menor').addEventListener('click', initialCofing.showNoteMinor); // evento click para mostrar nota menor
 
-			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent);
-			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent);
+			$('.btn-editar-estudiante').on('click', initialCofing.editNoteStudent); // evento click que rellena el formulario con datos
+			document.getElementById('btn-actualizar-estudiante').addEventListener('click', initialCofing.updateDataStudent); // evento click que actualiza datos del estudiante
 
-			document.getElementById('btn-actualizar-estudiante').addEventListener('click', initialCofing.updateDataStudent);
+			$('.btn-eliminar-estudiate').on('click', initialCofing.deleteNoteStudent); // evento click que elimina datos del localSotrage
 
 			$('#codigo-estudiante').on('keydown', function(e) {
 
@@ -321,6 +326,7 @@
 			for (var h = 0; h < Object.keys(arrNotas).length; h++) {
 
 				$('input[name=nota_' + h + ']').val(arrNotas[h]);
+				$('input[name=nota_' + h + ']').hide().slideDown(400);
 			}
 
 			$('#crear-input').eachKey();
@@ -382,7 +388,17 @@
 
 				localStorage.setItem('session.dataStudents', JSON.stringify(sessionDataStudents));
 
-				location.reload();
+				swal({
+					type: 'success',
+					title: '<small>Actualizar</small>',
+					text: 'Datos actualizados correctamente',
+					confirmButtonColor: '#afe094',
+					confirmButtonText: 'Aceptar',
+					closeOnConfirm: true,
+					html: true
+				}, function() {
+					location.reload();
+				});
 			}
 		},
 		deleteNoteStudent: function(e) {
@@ -434,7 +450,7 @@
 				for (var i = 0; i < Object.keys(listDataStudents.register).length; i++) {
 
 					insertarHtmlPromediosEstudiantes += `<tr> <td>${ listDataStudents.register[i].codigo }</td>
-					<td>${ listDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(listDataStudents.register[i].notas).toPrecision(3) }</td>
+					<td>${ listDataStudents.register[i].nombre }</td> <td>${ Math.round(initialCofing.calculatingNotesAverage(listDataStudents.register[i].notas)) }</td>
 					</tr>`;
 				}
 			} else {
@@ -506,7 +522,7 @@
 					if (initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) == resultado) {
 
 						insertarHtmlPromediosEstudiantesMin += `<tr> <td>${ sessionDataStudents.register[i].codigo }</td>
-						<td>${ sessionDataStudents.register[i].nombre }</td> <td>${ initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas).toPrecision(3) }</td>
+						<td>${ sessionDataStudents.register[i].nombre }</td> <td>${ Math.round(initialCofing.calculatingNotesAverage(sessionDataStudents.register[i].notas)) }</td>
 						</tr>`;
 					}
 				}
@@ -527,7 +543,7 @@
 				html: true
 			}, function() {});
 		},
-		calculatingNotesAverage: function(obj) {
+		calculatingNotesAverage: function(obj) { // calcula el promedio de las notas
 
 			var sum = 0;
 
@@ -619,7 +635,12 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
+
+
+		$('#load-body').highlight();
+
 		return CONFIG_INIT.prototype.constructor();
+
 	});
 
 }(jQuery, window, document));

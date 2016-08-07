@@ -1,3 +1,10 @@
+/**
+ * @author [Steven Delgado Ch] <[< steven.delgado.ch@gmail.com >]>
+ * @description [  jquery.index.default.js ]
+ * Fecha de creación: 07/08/16
+ * Fecha de actualización:
+ * Participantes: [ ]
+ */
 $(function() {
 
 	'use strict';
@@ -8,7 +15,6 @@ $(function() {
 
 		this[0].style.backgroundColor = opts.background;
 		// console.log(opts.foreground, opts.background, this[0].style = opts.background)
-
 	};
 
 	$.fn.eachKey = function() {
@@ -42,7 +48,6 @@ $(function() {
 		background: 'yellow'
 	};
 
-	// console.log($.fn.highlight)
-	// $.fn.highlight.defaults.background = "blue";
+	$.fn.highlight.defaults.background = 'rgba(0,0,0,.0001)';
 
 }(jQuery));
