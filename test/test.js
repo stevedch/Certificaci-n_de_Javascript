@@ -40,5 +40,12 @@
 	// 	'height': 650
 	// });
 
+
+	$('a[href="#mostrar-bootbox"]').on('click', function(e) {
+		e.preventDefault();
+		console.log(this)
+	});
+
+
 	console.table(resultado)
 }(jQuery, window, document));
