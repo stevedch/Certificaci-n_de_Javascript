@@ -1,13 +1,12 @@
 /**
  * @author [Steven Delgado Ch] <[< steven.delgado.ch@gmail.com >]>
  * @description [ Este script realiza las siguientes acciones:
- * - Almacenamiento de datos de un estudiante [ localStorage ].
- * - Mostrar todos los objetos del json.
- * - Calcular la nota promedio y mostrar en pantalla.
- * - Mostrar en pantalla el estudiante con la mayor nota.
- * - Mostrar en pantalla el estudiante con la menor nota de todas.
+ *  - Registrar datos.
+ *  - Impletar imágenes.
+ *  - Mostrar mapa con la ubicación del hotel.
+ *  - Listar hoteles.
  * ]
- * Fecha de creación: 03/07/16
+ * Fecha de creación: 15/10/16
  * Fecha de actualización:
  * Participantes: [ ]
  */
