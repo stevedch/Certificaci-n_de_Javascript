@@ -1,8 +1,7 @@
 /**
  * @author [Steven Delgado Ch] <[< steven.delgado.ch@gmail.com >]>
- * @description [ Este script realiza las siguientes acciones:
- * ]
- * Fecha de creación: 07/08/16
+ * @description [ Este js está orientado al juego de damas  ]
+ * Fecha de creación: 25/09/16
  * Fecha de actualización:
  * Participantes: [ ]
  */
@@ -218,7 +217,7 @@
             this.loadGrid();
             this.checkerGrid();
         },
-        loadGrid: function () { // cargando tablero
+        loadGrid: function () {
 
             var grid = this.gridTable,
                 insertHtmlGrid = '<table class="grid">';
@@ -236,26 +235,22 @@
             insertHtmlGrid += '</table>';
             document.getElementById('table-grid').innerHTML = insertHtmlGrid;
 
-            // var insertHtml = '<i class="fa fa-cog fa-spin fa-3x fa-fw margin-icon"></i>' +
-            // 	'<div class="col-md-12 content-game"><span class="text-load-game"> Iniciando datos del juego...</span></div>';
+            var message = '<select id="select" class="form-control"><option value="blue">Azul</option>'+
+                '<option value="red">Rojo</option> </select>';
 
-            // $('#table-grid').html(insertHtml);
+            swal({
+                type: 'success',
+                title: '<h3><small>Seleccione el color de ficha</small></h3>',
+                text: message,
+                confirmButtonColor: '#afe094',
+                confirmButtonText: 'aceptar',
+                closeOnConfirm: true,
+                html: true
+            }, function () {
 
-            // setTimeout(function() {
-            // 	$('.text-load-game').html('Cargando los datos del juego...').hide().fadeIn(1000);
-            // }, 4000);
+                turn =  $('#select').val();
+            });
 
-            // setTimeout(function() {
-            // 	$('.text-load-game').html('Ya casi hemos terminado...').hide().fadeIn(1000);
-            // }, 9000);
-
-            // setTimeout(function() {
-            // 	$('.text-load-game').html('El juego inicia el color rojo...').hide().fadeIn(1000);
-            // }, 10000);
-
-            // setTimeout(function() {
-
-            // }, 15000);
         },
         checkerGrid: function () {
 
@@ -309,20 +304,20 @@
                     selected.x = 0;
                     selected.y = 0;
                     turn = 'blue';
-                } else if ((x == selected.x - 2) && (y == selected.y + 2) && (positionChecker.occupied == "")) { //Jump left
+                } else if ((x == selected.x - 2) && (y == selected.y + 2) && (positionChecker.occupied == "")) { // Salto a la izquierda azul
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x + 1, y - 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('red') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x + 1, y - 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -330,20 +325,20 @@
                         turn = 'blue';
                         accessDataLocal.gameFinished(accessDataLocal.gridTable);
                     }
-                } else if ((x == selected.x + 2) && (y == selected.y + 2) && (positionChecker.occupied == "")) { //Jump right
+                } else if ((x == selected.x + 2) && (y == selected.y + 2) && (positionChecker.occupied == "")) { // Salto a la derecha azul
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x - 1, y - 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('red') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x - 1, y - 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -361,7 +356,7 @@
                     selected.y = 0;
                     cell.innerHTML = "<div id=" + positionChecker.occupied + "></div>";
                     cell.onclick = accessDataLocal.moveClickChecker;
-                } else if ((x == selected.x - 1 || x == selected.x + 1) && (y == selected.y - 1) && (positionChecker.occupied == "") && selected.king) { //Move king
+                } else if ((x == selected.x - 1 || x == selected.x + 1) && (y == selected.y - 1) && (positionChecker.occupied == "") && selected.king) { // Movimiento de ficha rey azul
 
                     cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                     cell.onclick = accessDataLocal.moveClickChecker;
@@ -372,20 +367,20 @@
                     selected.x = 0;
                     selected.y = 0;
                     turn = 'blue';
-                } else if ((x == selected.x - 2) && (y == selected.y - 2) && (positionChecker.occupied == "") && selected.king) { //Jump left king
+                } else if ((x == selected.x - 2) && (y == selected.y - 2) && (positionChecker.occupied == "") && selected.king) { // Salto a la izquierda ficha rey azul
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x + 1, y + 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('red') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x + 1, y + 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -393,20 +388,20 @@
                         turn = 'blue';
                         accessDataLocal.gameFinished(accessDataLocal.gridTable);
                     }
-                } else if ((x == selected.x + 2) && (y == selected.y - 2) && (positionChecker.occupied == "") && selected.king) { //Jump right king
+                } else if ((x == selected.x + 2) && (y == selected.y - 2) && (positionChecker.occupied == "") && selected.king) { //Salto a la derecha ficha rey azul
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x - 1, y + 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('red') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x - 1, y + 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -423,7 +418,6 @@
                     selected.occupied = 'king-blue';
                 }
 
-                //Move
                 if ((x == selected.x - 1 || x == selected.x + 1) && (y == selected.y - 1) && (positionChecker.occupied == "")) {
 
                     cell.innerHTML = "<div id=" + selected.occupied + "></div>";
@@ -436,20 +430,20 @@
                     selected.y = 0;
                     turn = 'red';
 
-                } else if ((x == selected.x - 2) && (y == selected.y - 2) && (positionChecker.occupied == "")) { //Jump left
+                } else if ((x == selected.x - 2) && (y == selected.y - 2) && (positionChecker.occupied == "")) { // Salto a la izquierda rojo
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x + 1, y + 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('blue') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x + 1, y + 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
-                        positionChecker.king = selected.king
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
+                        positionChecker.king = selected.king;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -457,20 +451,20 @@
                         turn = 'red';
                         accessDataLocal.gameFinished(accessDataLocal.gridTable);
                     }
-                } else if ((x == selected.x + 2) && (y == selected.y - 2) && (positionChecker.occupied == "")) { //Jump right
+                } else if ((x == selected.x + 2) && (y == selected.y - 2) && (positionChecker.occupied == "")) { // Salto a la derecha rojo
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x - 1, y + 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('blue') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x - 1, y + 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -489,7 +483,7 @@
                     cell.innerHTML = "<div id=" + positionChecker.occupied + "></div>";
                     cell.onclick = accessDataLocal.moveClickChecker;
 
-                } else if ((x == selected.x - 1 || x == selected.x + 1) && (y == selected.y + 1) && (positionChecker.occupied == "") && selected.king) { //Move king
+                } else if ((x == selected.x - 1 || x == selected.x + 1) && (y == selected.y + 1) && (positionChecker.occupied == "") && selected.king) { //Movimiento de ficha rey rojo
 
                     cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                     cell.onclick = accessDataLocal.moveClickChecker;
@@ -501,20 +495,20 @@
                     selected.y = 0;
                     turn = 'red';
 
-                } else if ((x == selected.x - 2) && (y == selected.y + 2) && (positionChecker.occupied == "") && selected.king) { //Jump left king
+                } else if ((x == selected.x - 2) && (y == selected.y + 2) && (positionChecker.occupied == "") && selected.king) { // Salto a la izquierda ficha rey rojo
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x + 1, y - 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('blue') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x + 1, y - 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -522,20 +516,20 @@
                         turn = 'red';
                         accessDataLocal.gameFinished(accessDataLocal.gridTable);
                     }
-                } else if ((x == selected.x + 2) && (y == selected.y + 2) && (positionChecker.occupied == "") && selected.king) { //Jump right king
+                } else if ((x == selected.x + 2) && (y == selected.y + 2) && (positionChecker.occupied == "") && selected.king) { // Salto a la derecha ficha rey rojo
 
                     jumped = accessDataLocal.getPositionCheckerGrid(x - 1, y - 1, accessDataLocal.gridTable);
 
                     if (jumped.occupied.indexOf('blue') == -1 && jumped.occupied != "") {
 
+                        jumped.occupied = "";
                         jumpedCell = accessDataLocal.getGridCell(x - 1, y - 1);
+                        jumpedCell.innerHTML = "<div id=''></div>";
+                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         cell.innerHTML = "<div id=" + selected.occupied + "></div>";
                         cell.onclick = accessDataLocal.moveClickChecker;
                         positionChecker.occupied = selected.occupied;
                         positionChecker.king = selected.king;
-                        jumped.occupied = "";
-                        jumpedCell.innerHTML = "<div id=''></div>";
-                        jumpedCell.onclick = accessDataLocal.moveClickChecker;
                         selected.occupied = "";
                         selected.king = false;
                         selected.x = 0;
@@ -591,7 +585,6 @@
                 }, function () {
                     location.reload(true);
                 });
-
             } else if (!blueExists) {
 
                 swal({
@@ -605,12 +598,10 @@
                 }, function () {
                     location.reload(true);
                 });
-
             }
-
             return false;
         }
-    }
+    };
 
     document.addEventListener('DOMContentLoaded', function () {
 
