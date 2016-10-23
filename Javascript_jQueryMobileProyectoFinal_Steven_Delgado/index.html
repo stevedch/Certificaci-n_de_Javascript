@@ -21,20 +21,117 @@
 	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="vendor/js/jquery-2.2.4.js"><\/script>')</script>
-<script src="js/vendor/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+	<div data-role="page" id="page-main">
+		<div data-role="header">
+			<h1>Gestión Hotel</h1>
+		</div>
+		<div data-role="content">
+			<form>
+				<!--div class="ui-field-contain">
+					<label for="precio1">Precio Producto 1:</label>
+					<input type="text" name="precio1" id="precio1">
+				</div-->
+				<div data-role="controlgroup" data-type="vertical">
+					<a id="load-register" href="#page-register" class="ui-btn" data-transition="flow">Registrar Hotel</a>
+					<a href="#page-list" class="ui-btn" data-transition="flow" data-direction="reverse">Lista Hoteles</a>
+				</div>
+			</form>
+		</div>
+		<div data-role="footer">
+			<p align="center">Gestión Hotel</p>
+		</div>
+	</div> <!-- PÁGINA PRINCIPAL -->
 
-<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-<script>
-	(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-	e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-	e.src='https://www.google-analytics.com/analytics.js';
-	r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-	ga('create','UA-XXXXX-X');ga('send','pageview');
-</script>
-</body>
-</html>
+	<div data-role="page" id="page-register">
+		<!--div data-role="header">
+			<h1>Gestión Hotel</h1>
+		</div-->
+		<div data-role="content">
+			<form>
+
+				<label for="name">Nombre:</label>
+				<input type="text" name="name" id="name">
+
+				<hr>
+				<label for="location">Ubicacion:</label>
+
+				<div id="map-page" data-url="map-page">
+					<div role="main" class="ui-content" id="map-canvas"> </div>
+				</div>
+				<hr>
+
+				<label for="city">Ciudad:</label>
+				<input type="text" name="city" id="city">
+
+				<label for="telephone">Teléfono:</label>
+				<input type="text" name="telephone" id="telephone">
+
+				<label for="stars">Estrellas:</label>
+				<input type="text" name="stars" id="stars">
+
+				<div data-role="controlgroup" data-type="vertical">
+					<a href="#new-register" class="ui-btn">Registrar Hotel</a>
+					<a href="#page-main" class="ui-btn  ui-icon-arrow-l ui-btn-icon-left" data-transition="slide" data-direction="reverse">Volver</a>
+				</div>
+			</form>
+		</div>
+		<!--div data-role="footer">
+			<p align="center">Gestión Hotel</p>
+		</div-->
+	</div> <!-- PÁGINA REGISTRAR HOTEL -->
+
+
+
+	<div data-role="page" id="page-list">
+		<div data-role="header">
+			<h1>Gestión Hotel</h1>
+		</div>
+		<div data-role="content">
+			<form>
+
+				Lista Hoteles
+				<!--div class="ui-field-contain">
+					<label for="precio1">Precio Producto 1:</label>
+					<input type="text" name="precio1" id="precio1">
+				</div-->
+				<!--a href="#page-register" class="ui-btn">Registrar Hotel</a>
+				<a href="#page-list" class="ui-btn">Lista Hoteles</a-->
+
+					<div data-role="controlgroup" data-type="vertical">
+						<a href="#page-main" class="ui-btn  ui-icon-arrow-l ui-btn-icon-left" data-transition="slide" data-direction="reverse">Volver</a>
+					</div>
+				</form>
+			</div>
+			<div data-role="footer">
+				<p align="center">Gestión Hotel</p>
+			</div>
+		</div> <!-- PÁGINA REGISTRAR HOTEL -->
+
+
+
+
+
+
+
+
+		<script src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="js/vendor/jquery-2.2.4.min.js"><\/script>')</script>
+		<script src="js/vendor/google.maps.js"></script>
+		<script src="js/vendor/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+		<script src="js/index.default.load.js"></script>
+
+
+
+
+
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+		<script>
+			(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+				function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+			e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+			e.src='https://www.google-analytics.com/analytics.js';
+			r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+			ga('create','UA-XXXXX-X');ga('send','pageview');
+		</script>
+	</body>
+	</html>
